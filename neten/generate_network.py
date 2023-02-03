@@ -15,31 +15,18 @@ import pandas as pd
 
 class NetWorkEnhancement():
 
-    def __init__(self, eps: float = 2e-16, k=None, alpha=0.9, diffusion=2):
+    def __init__(self, df,eps: float = 2e-16, k=None, alpha=0.9, diffusion=2):
         self.W = None
         self.diffusion = diffusion
         self.alpha = alpha
         self.eps = eps
         self.k = k
-        return None
-
-    def preprocessing(self, df):
-        # input should be TMT data
-        dm = df.pivot_table(values="Abundance", index=[
-            "Protein"], columns=["Mixture", "BioFraction", "Genotype"])
-        # drop NA
-        print(f'{dm.isna().sum().sum()} proteins with any missing values are removed.')
-        dm = dm.dropna()
-        # make  pearson correlation matrix
-        corr = dm.T.corr(method="pearson")
-        self.cor = corr.to_numpy(dtype=np.float64)
-        if self.cor.shape[0] != self.cor.shape[1]:
-            raise ValueError("input should be symmetric")
-        self.node = corr.columns
+        self.cor = df.to_numpy(dtype=np.float64)
+        self.node = df.columns
         if self.k == None:
-            self.k = min(20, np.ceil(corr.size)/10)
+            self.k = min(20, np.ceil(self.cor.size)/10)
         self.num = self.node.size
-        return corr
+        return None
 
     def Enhance(self):
         print(f"Generating Network of {self.num} proteins...")
