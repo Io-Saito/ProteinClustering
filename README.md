@@ -6,7 +6,7 @@ This repository aims to provide an interactive Python tutorial for protein clust
 ## Usage
 1. You need Python>=3.6
 
-2. Run ```pip install requirements.txt```
+2. Run ```pip install pandas leidenalg ipykernel tqdm```
 
 3. Put your TMT data into ./data
 
