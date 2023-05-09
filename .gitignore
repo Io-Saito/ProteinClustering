@@ -1,5 +1,6 @@
 
-*.csv
+
 /neten/__pychache__/
 *.pyc
 .DS_store
+*.csv

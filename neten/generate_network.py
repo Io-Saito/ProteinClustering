@@ -57,10 +57,12 @@ class NetWorkEnhancement():
         self.W = D@self.W
         self.W[np.where(self.W < 0)] = 0
         self.W = (self.W+self.W.T)/2
-        return pd.DataFrame(self.W.astype(np.float), columns=self.node, index=self.node)
+        return pd.DataFrame(self.W.astype(float), columns=self.node, index=self.node)
 
     def CalculatingWeight(self, D, V):
-        self.W = (V@D)@V.T
+        W_ = V@D
+        print("I appreciate to your patience")
+        self.W=W_@V.T
 
     def dominantset(self, aff_matrix: np.array, NR_OF_N: int) -> np.array:
         A = np.sort(aff_matrix, axis=0)[::-1].T
@@ -70,7 +72,7 @@ class NetWorkEnhancement():
         loc = B[:, 0: NR_OF_N]
         idx_ = loc.flatten("F")*aff_matrix.shape[0]+(inds.flatten("F"))
         PNN_array = np.zeros(shape=aff_matrix.size)
-        PNN_array[idx_.astype(np.int)] = res.flatten("F")
+        PNN_array[idx_.astype(int)] = res.flatten("F")
         PNN_matrix1 = PNN_array.reshape(aff_matrix.shape)
         PNN_matrix = (PNN_matrix1+PNN_matrix1.T)/2
         return PNN_matrix
